@@ -2,10 +2,10 @@ author: SwearWord
 database: false
 generator: http://dinnerbone.com/minecraft/tools/pluginator/
 main: org.getchunky.chunkyvillage.ChunkyVillage
-name: ChunkyGovernment
+name: ChunkyVillage
 startup: postworld
 url: http://getchunky.org/
-version: '1.0'
+version: ${build.number}
 depend: [Chunky]
 commands:
     town:
