@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>org.getchunky</groupId>
-            <artifactId>chunky</artifactId>
+            <artifactId>Chunky</artifactId>
             <version>Afghan-SNAPSHOT</version>
         </dependency>
     </dependencies>
