@@ -4,6 +4,7 @@ import com.nijikokun.register.payment.Method;
 import org.getchunky.chunky.Chunky;
 import org.getchunky.chunky.ChunkyManager;
 import org.getchunky.chunky.locale.Language;
+import org.getchunky.chunky.object.ChunkyObject;
 import org.getchunky.chunky.object.ChunkyPlayer;
 import org.getchunky.chunkyvillage.objects.ChunkyTown;
 import org.json.JSONException;
@@ -29,8 +30,8 @@ public class ChunkyTownManager {
     }
 
     public static boolean pay(ChunkyPlayer seller, ChunkyPlayer buyer, double amount) {
-        Method.MethodAccount source = Chunky.getMethod().getAccount(buyer.getName());
-        Method.MethodAccount target = Chunky.getMethod().getAccount(seller.getName());
+        Method.MethodAccount source = getAccount(buyer);
+        Method.MethodAccount target = getAccount(seller);
         if(!source.hasEnough(amount)) {
             Language.sendBad(buyer, "You cannot afford " + Chunky.getMethod().format(amount));
             return false;
@@ -38,6 +39,10 @@ public class ChunkyTownManager {
         source.subtract(amount);
         target.add(amount);
         return true;
+    }
+
+    public static Method.MethodAccount getAccount(ChunkyObject chunkyObject) {
+        return Chunky.getMethod().getAccount(chunkyObject.getName());
     }
 
 }

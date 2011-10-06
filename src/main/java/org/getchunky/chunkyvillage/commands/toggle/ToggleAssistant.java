@@ -1,5 +1,6 @@
 package org.getchunky.chunkyvillage.commands.toggle;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getchunky.chunky.ChunkyManager;
@@ -45,8 +46,8 @@ public class ToggleAssistant implements ChunkyCommandExecutor{
 
         if(chunkyTown.isAssistant(chunkyPlayer)) {
             chunkyTown.removeAssistant(chunkyPlayer);
-            Language.sendGood(assistant,"You have been demoted from assistant.");
-            Language.sendGood(chunkyPlayer,assistant.getName() + " has been demoted from assistant.");
+            Language.sendGood(assistant, ChatColor.RED + "You have been demoted from assistant.");
+            Language.sendMessage(chunkyPlayer, ChatColor.RED + assistant.getName() + " has been demoted from assistant.");
         }
         else {
             chunkyTown.addAssistant(chunkyPlayer);

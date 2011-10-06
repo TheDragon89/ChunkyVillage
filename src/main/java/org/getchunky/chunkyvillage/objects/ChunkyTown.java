@@ -1,6 +1,7 @@
 package org.getchunky.chunkyvillage.objects;
 
 import com.nijikokun.register.payment.Method;
+import org.bukkit.ChatColor;
 import org.getchunky.chunky.Chunky;
 import org.getchunky.chunky.ChunkyManager;
 import org.getchunky.chunky.locale.Language;
@@ -97,9 +98,10 @@ public class ChunkyTown extends ChunkyObject {
     }
 
     public HashSet<ChunkyObject> getResidents() {
-        List<ChunkyPlayer> chunkyPlayerList = new ArrayList<ChunkyPlayer>();
-        chunkyPlayerList.add(getMayor());
-        return this.getOwnables().get(ChunkyPlayer.class.getName());
+        HashSet<ChunkyObject> ret = new HashSet<ChunkyObject>();
+        ret.addAll(this.getOwnables().get(ChunkyPlayer.class.getName()));
+        ret.add(getMayor());
+        return ret;
     }
 
     public boolean pay(ChunkyPlayer buyer, double amount) {
@@ -176,6 +178,21 @@ public class ChunkyTown extends ChunkyObject {
         for(ChunkyObject chunkyPlayer : getResidents()) {
             i += chunkyPlayer.getOwnables().get(ChunkyChunk.class.getName()).size();}
         return i;
+    }
+
+    public double taxPlayers(double tax) {
+        Method.MethodAccount account = getAccount();
+        double sum=0;
+
+        for(ChunkyObject chunkyObject : getResidents()) {
+            Method.MethodAccount res = ChunkyTownManager.getAccount(chunkyObject);
+            double amount = res.balance()*tax;
+            sum+=amount;
+            res.subtract(amount);
+            Language.sendMessage((ChunkyPlayer)chunkyObject, ChatColor.AQUA + "You paid " + Chunky.getMethod().format(amount) + " in taxes.");
+        }
+        account.add(sum);
+        return sum;
     }
 
 
