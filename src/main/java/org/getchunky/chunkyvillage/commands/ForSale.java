@@ -10,6 +10,7 @@ import org.getchunky.chunky.object.ChunkyChunk;
 import org.getchunky.chunky.object.ChunkyPlayer;
 import org.getchunky.chunkyvillage.ChunkyTownManager;
 import org.getchunky.chunkyvillage.objects.ChunkyTown;
+import org.getchunky.chunkyvillage.util.Tools;
 
 public class ForSale implements ChunkyCommandExecutor{
     public void onCommand(CommandSender sender, ChunkyCommand chunkyCommand, String s, String[] strings) {
@@ -17,19 +18,28 @@ public class ForSale implements ChunkyCommandExecutor{
             Language.IN_GAME_ONLY.bad(sender);
             return;
         }
-        if(!(sender.hasPermission("chunky.town.create"))) {
-            Language.NO_COMMAND_PERMISSION.bad(sender);
-            return;
-        }
         Player player = (Player)sender;
         ChunkyPlayer chunkyPlayer = ChunkyManager.getChunkyPlayer(player.getName());
         ChunkyChunk chunkyChunk = chunkyPlayer.getCurrentChunk();
-        ChunkyTown chunkyTown = ChunkyTownManager.isMayor(chunkyPlayer);
+        ChunkyTown chunkyTown = ChunkyTownManager.getTown(chunkyPlayer);
+        if(chunkyTown == null) {
+            Language.sendBad(chunkyPlayer,"You do not belong to a town.");
+            return;
+        }
         if(!chunkyPlayer.isOwnerOf(chunkyChunk)) {
             Language.sendBad(chunkyPlayer, "You do not own this land.");
             return;
         }
+
         double cost = 100;
+
+        if(strings.length > 0) {
+            cost = Tools.parseDouble(strings[0]);
+            if(cost<0) {
+                Language.sendBad(chunkyPlayer,"This is not a valid number.");}}
+
+
+
         chunkyTown.setChunkForSale(chunkyChunk,cost);
         Language.sendGood(chunkyPlayer,"This plot is on sale for " + cost);
     }
