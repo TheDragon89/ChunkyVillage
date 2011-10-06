@@ -7,6 +7,9 @@ import org.getchunky.chunky.locale.Language;
 import org.getchunky.chunky.object.ChunkyChunk;
 import org.getchunky.chunky.object.ChunkyObject;
 import org.getchunky.chunky.object.ChunkyPlayer;
+import org.getchunky.chunkyvillage.ChunkyTownManager;
+import org.getchunky.chunkyvillage.Config;
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -14,6 +17,52 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ChunkyTown extends ChunkyObject {
+
+
+    public boolean isMayor(ChunkyPlayer chunkyPlayer) {
+        return (ChunkyPlayer)this.getOwner() == chunkyPlayer;
+    }
+
+    public boolean isAssistant(ChunkyPlayer chunkyPlayer) {
+        return getAssistants().contains(chunkyPlayer.getName());
+    }
+
+    public boolean isAssistantOrMayor(ChunkyPlayer chunkyPlayer) {
+        return (isMayor(chunkyPlayer) || isAssistant(chunkyPlayer));
+    }
+
+    public HashSet<String> getAssistants() {
+        HashSet<String> result = new HashSet<String> ();
+        try {
+            JSONArray assistants = this.getJSONArray("assistants");
+            for(int i=0;i<assistants.length();i++) {
+                result.add(assistants.getString(i));}
+        } catch (JSONException e) {}
+
+        return result;
+    }
+
+    public boolean addAssistant(ChunkyPlayer chunkyPlayer) {
+        HashSet<String> assists = getAssistants();
+        boolean result = assists.add(chunkyPlayer.getName());
+        try {
+            put("assistants",assists);
+            this.save();
+        } catch (JSONException e) {
+        }
+        return result;
+    }
+
+    public boolean removeAssistant(ChunkyPlayer chunkyPlayer) {
+        HashSet<String> assists = getAssistants();
+        boolean result = assists.remove(chunkyPlayer.getName());
+        try {
+            put("assistants",assists);
+            this.save();
+        } catch (JSONException e) {
+        }
+        return result;
+    }
 
     public ChunkyPlayer getMayor() {
         return (ChunkyPlayer)this.getOwner();
@@ -69,7 +118,7 @@ public class ChunkyTown extends ChunkyObject {
     }
 
     public ChunkyTown addResident(ChunkyPlayer chunkyPlayer) {
-        chunkyPlayer.setOwner(this,true,false);
+        chunkyPlayer.setOwner(this,false,false);
         return this;
     }
 
@@ -101,7 +150,6 @@ public class ChunkyTown extends ChunkyObject {
     }
 
     public boolean buyChunk(ChunkyChunk chunk, ChunkyPlayer buyer) {
-        Language.sendGood(buyer,"Buying chunk...");
         if(chunk.getOwner().equals(this)) {
             if(!pay(buyer,getCost(chunk))) return false;
             chunk.setOwner(buyer,false,true);
@@ -109,8 +157,27 @@ public class ChunkyTown extends ChunkyObject {
             Language.sendGood(buyer,"You have purchased this chunk!");
             return true;
         }
-        return false;
+
+        if(!ChunkyTownManager.pay((ChunkyPlayer)chunk.getOwner(),buyer, getCost(chunk))) return false;
+        chunk.setOwner(buyer,false,true);
+        setChunkNotForSale(chunk);
+        Language.sendGood(buyer,"You have purchased this chunk!");
+        return true;
+
     }
+
+    public int maxChunks() {
+        return getResidents().size() * Config.getChunkBonusPerPlayer() + Config.getStartingChunks();
+    }
+
+    public int claimedChunkCount() {
+        int i =0;
+        i+= this.getOwnables().get(ChunkyChunk.class.getName()).size();
+        for(ChunkyObject chunkyPlayer : getResidents()) {
+            i += chunkyPlayer.getOwnables().get(ChunkyChunk.class.getName()).size();}
+        return i;
+    }
+
 
 }
 
