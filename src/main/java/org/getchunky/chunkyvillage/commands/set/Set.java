@@ -1,0 +1,10 @@
+package org.getchunky.chunkyvillage.commands.set;
+
+import org.bukkit.command.CommandSender;
+import org.getchunky.chunky.module.ChunkyCommand;
+import org.getchunky.chunky.module.ChunkyCommandExecutor;
+
+public class Set implements ChunkyCommandExecutor{
+    public void onCommand(CommandSender sender, ChunkyCommand chunkyCommand, String s, String[] strings) {
+    }
+}
