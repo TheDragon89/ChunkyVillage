@@ -28,8 +28,11 @@ public class ChunkyEvents extends ChunkyPlayerListener {
             }
         }
 
-        chunkyTown = ChunkyTownManager.isMayor(event.getChunkyPlayer());
-        if(chunkyTown != null) {
+        if(chunkyTown.isAssistantOrMayor(event.getChunkyPlayer())) {
+            if(chunkyTown.claimedChunkCount() >= chunkyTown.maxChunks()) {
+                Language.sendBad(event.getChunkyPlayer(),"You need to have more residents before you can expand.");
+                return;
+            }
             event.setCancelled(true);
             if(!event.getChunkyChunk().isOwned()) {
                 if(!isAdjacent(event.getChunkyChunk().getCoord(),chunkyTown)){
