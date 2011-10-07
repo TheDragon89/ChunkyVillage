@@ -44,13 +44,13 @@ public class ToggleAssistant implements ChunkyCommandExecutor{
             return;
         }
 
-        if(chunkyTown.isAssistant(chunkyPlayer)) {
+        if(chunkyTown.isAssistant(assistant)) {
             chunkyTown.removeAssistant(chunkyPlayer);
             Language.sendGood(assistant, ChatColor.RED + "You have been demoted from assistant.");
             Language.sendMessage(chunkyPlayer, ChatColor.RED + assistant.getName() + " has been demoted from assistant.");
         }
         else {
-            chunkyTown.addAssistant(chunkyPlayer);
+            chunkyTown.addAssistant(assistant);
             Language.sendGood(assistant,"You have been promoted to assistant.");
             Language.sendGood(chunkyPlayer,assistant.getName() + " has been promoted to assistant.");}
 
