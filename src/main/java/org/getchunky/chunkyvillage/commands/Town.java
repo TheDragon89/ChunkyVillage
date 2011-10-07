@@ -20,6 +20,12 @@ public class Town implements ChunkyCommandExecutor{
         }
         ChunkyPlayer chunkyPlayer = ChunkyManager.getChunkyPlayer(sender.getName());
         ChunkyTown chunkyTown = ChunkyTownManager.getTown(chunkyPlayer);
+
+        if(chunkyTown==null) {
+            Language.sendBad(chunkyPlayer, "You are not part of a town");
+            return;
+        }
+
         sender.sendMessage(ChatColor.GRAY + "|-------------------" + ChatColor.GREEN + "["+ChatColor.GOLD + chunkyTown.getName()+ChatColor.GREEN + "]" + ChatColor.GRAY + "-------------------|");
         String res = "";
         int i=0;

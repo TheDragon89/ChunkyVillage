@@ -8,6 +8,7 @@ import org.getchunky.chunky.exceptions.ChunkyUnregisteredException;
 import org.getchunky.chunky.module.ChunkyCommand;
 import org.getchunky.chunkyvillage.commands.*;
 import org.getchunky.chunkyvillage.commands.set.Set;
+import org.getchunky.chunkyvillage.commands.set.SetMayor;
 import org.getchunky.chunkyvillage.commands.set.SetName;
 import org.getchunky.chunkyvillage.commands.toggle.Toggle;
 import org.getchunky.chunkyvillage.commands.toggle.ToggleAssistant;
@@ -53,15 +54,18 @@ public class ChunkyVillage extends JavaPlugin {
             ChunkyCommand list = new ChunkyCommand("list", Arrays.asList("l"),"Lists towns.",Arrays.asList("/c town list or /c t l"),new List(),town);
 
             ChunkyCommand newTown = new ChunkyCommand("new", Arrays.asList("n"),"Create a new town",Arrays.asList("/c town new or /c t n"),new NewTown(),town);
-            ChunkyCommand forSale = new ChunkyCommand("forsale", Arrays.asList("fs"),"Sets land for sale",Arrays.asList("/c town forsale or /c t fs"),new ForSale(),town);
+            ChunkyCommand forSale = new ChunkyCommand("forsale", Arrays.asList("fs"),"Sets land for sale",Arrays.asList("/c town forsale <cost> or /c t fs <cost>"),new ForSale(),town);
+            ChunkyCommand notForSale = new ChunkyCommand("notforsale", Arrays.asList("nfs"),"Removes land from market",Arrays.asList("/c town notforsale or /c t nfs"),new NotForSale(),town);
             ChunkyCommand addResident = new ChunkyCommand("add", Arrays.asList("a"),"Adds resident to town.",Arrays.asList("/c town add <player> or /c t k <player>"),new AddResident(),town);
             ChunkyCommand kickResident = new ChunkyCommand("kick", Arrays.asList("k"),"Removes resident from town.",Arrays.asList("/c town kick <player> or /c t r <player>"),new KickResident(),town);
             ChunkyCommand tax = new ChunkyCommand("tax", Arrays.asList("tax"),"Taxes all residents.",Arrays.asList("/c town tax <1-100> or /c t tax <1-100>"),new Tax(),town);
             ChunkyCommand vote = new ChunkyCommand("vote", Arrays.asList("v"),"Votes for a mayor.",Arrays.asList("/c town vote <player> or /c t v <player>"),new Vote(),town);
             ChunkyCommand spawn = new ChunkyCommand("spawn", Arrays.asList("s"),"Teleport to town.",Arrays.asList("/c town spawn or /c t s"),new Spawn(),town);
+            ChunkyCommand leave = new ChunkyCommand("leave", Arrays.asList("lv"),"Leave from the town.",Arrays.asList("/c town leave or /c t lv"),new Leave(),town);
 
             ChunkyCommand set = new ChunkyCommand("set", Arrays.asList("s"),"Change various options.",Arrays.asList("/c town set ? or /c t s ?"),new Set(),town);
             ChunkyCommand setName = new ChunkyCommand("name", Arrays.asList("n"),"Sets town name.",Arrays.asList("/c town set name <name> or /c t s n <name>"),new SetName(),set);
+            ChunkyCommand setMayor = new ChunkyCommand("mayor", Arrays.asList("m"),"Sets new mayor.",Arrays.asList("/c town set mayor <name> or /c t s m <name>"),new SetMayor(),set);
 
             ChunkyCommand toggle = new ChunkyCommand("toggle", Arrays.asList("t"),"Toggle various options.",Arrays.asList("/c town toggle ? or /c t t ?"),new Toggle(),town);
             ChunkyCommand toggleAssistant = new ChunkyCommand("assistant", Arrays.asList("a"),"Toggles an assistant.",Arrays.asList("/c town toggle assistant <name> or /c t t a <name>"),new ToggleAssistant(),toggle);
@@ -71,8 +75,10 @@ public class ChunkyVillage extends JavaPlugin {
             Chunky.getModuleManager().registerCommand(vote);
             Chunky.getModuleManager().registerCommand(list);
             Chunky.getModuleManager().registerCommand(spawn);
+            Chunky.getModuleManager().registerCommand(leave);
 
             Chunky.getModuleManager().registerCommand(forSale);
+            Chunky.getModuleManager().registerCommand(notForSale);
             Chunky.getModuleManager().registerCommand(tax);
 
             Chunky.getModuleManager().registerCommand(addResident);
@@ -80,6 +86,7 @@ public class ChunkyVillage extends JavaPlugin {
 
             Chunky.getModuleManager().registerCommand(set);
             Chunky.getModuleManager().registerCommand(setName);
+            Chunky.getModuleManager().registerCommand(setMayor);
 
             Chunky.getModuleManager().registerCommand(toggle);
             Chunky.getModuleManager().registerCommand(toggleAssistant);

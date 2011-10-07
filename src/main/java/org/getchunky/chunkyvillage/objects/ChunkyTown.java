@@ -72,7 +72,10 @@ public class ChunkyTown extends ChunkyObject {
     public ChunkyTown setMayor(ChunkyPlayer mayor) {
         ChunkyObject oldOwner = this.getOwner();
         this.setOwner(mayor, true, false);
-        if(oldOwner!=null) oldOwner.setOwner(this,true,false);
+        if(oldOwner!=null) {
+            oldOwner.setOwner(this,true,false);
+            oldOwner.remove("mayor");
+        }
         try {
             mayor.put("mayor",this.getId());
         } catch (JSONException e) {}
@@ -251,6 +254,15 @@ public class ChunkyTown extends ChunkyObject {
         for(String candidate : standings.keySet()) {
             Language.sendMessage(chunkyPlayer,ChatColor.GREEN + candidate + ": " + ChatColor.YELLOW + standings.get(candidate) + " votes");
         }
+    }
+
+    public void delete() {
+        for(HashSet<ChunkyObject> chunkyObjects : this.getOwnables().values()) {
+            for(ChunkyObject chunkyObject : chunkyObjects) {
+                chunkyObject.setOwner(null,true,false);
+            }}
+        this.setOwner(null,false,true);
+        save();
     }
 
 
