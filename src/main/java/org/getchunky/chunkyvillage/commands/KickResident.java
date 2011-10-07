@@ -37,13 +37,7 @@ public class KickResident implements ChunkyCommandExecutor{
             return;
         }
 
-        Player player = Bukkit.getServer().matchPlayer(strings[0]).get(0);
-        if(player == null) {
-            Language.sendBad(chunkyPlayer,"Could not find player: " + strings[0]);
-            return;
-        }
-
-        ChunkyPlayer resident = ChunkyManager.getChunkyPlayer(player);
+        ChunkyPlayer resident = ChunkyManager.getChunkyPlayer(strings[0]);
 
         if(chunkyTown.isAssistantOrMayor(resident)) {
             Language.sendBad(chunkyPlayer,"You may not kick assistants or the mayor.");
