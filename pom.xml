@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.getchunky</groupId>
     <artifactId>ChunkyVillage</artifactId>
-    <version>1.0</version>
-    <name>ChunkyGovernment</name>
+    <version>SNAPSHOT</version>
+    <name>ChunkyVillage</name>
     <url>http://getchunky.org/</url>
     <repositories>
         <repository>
