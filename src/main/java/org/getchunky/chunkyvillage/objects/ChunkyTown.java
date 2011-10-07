@@ -21,7 +21,7 @@ import java.util.Iterator;
 public class ChunkyTown extends ChunkyObject {
 
     public boolean isMayor(ChunkyPlayer chunkyPlayer) {
-        return (ChunkyPlayer)this.getOwner() == chunkyPlayer;
+        return this.getOwner() == chunkyPlayer;
     }
 
     public boolean isAssistant(ChunkyPlayer chunkyPlayer) {
@@ -100,7 +100,7 @@ public class ChunkyTown extends ChunkyObject {
 
     public HashSet<ChunkyObject> getResidents() {
         HashSet<ChunkyObject> ret = new HashSet<ChunkyObject>();
-        ret.addAll(this.getOwnables().get(ChunkyPlayer.class.getName()));
+        if(this.getOwnables().get(ChunkyPlayer.class.getName())!=null) ret.addAll(this.getOwnables().get(ChunkyPlayer.class.getName()));
         ret.add(getMayor());
         return ret;
     }
