@@ -1,7 +1,9 @@
 package org.getchunky.chunkyvillage.objects;
 
 import com.nijikokun.register.payment.Method;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.getchunky.chunky.Chunky;
 import org.getchunky.chunky.ChunkyManager;
 import org.getchunky.chunky.locale.Language;
@@ -108,7 +110,7 @@ public class ChunkyTown extends ChunkyObject {
         return ret;
     }
 
-    public boolean pay(ChunkyPlayer buyer, double amount) {
+    public boolean deposit(ChunkyPlayer buyer, double amount) {
         Method.MethodAccount source = Chunky.getMethod().getAccount(buyer.getName());
         if(!source.hasEnough(amount)) {
             Language.sendBad(buyer,"You cannot afford " + Chunky.getMethod().format(amount));
@@ -116,6 +118,20 @@ public class ChunkyTown extends ChunkyObject {
         }
         source.subtract(amount);
         this.getAccount().add(amount);
+        this.goodMessageTown("The town has received " + Chunky.getMethod().format(amount) + " from " + buyer.getName());
+        return true;
+    }
+
+    public boolean withdraw(ChunkyPlayer receiver, double amount) {
+
+        Method.MethodAccount target = Chunky.getMethod().getAccount(receiver.getName());
+        if(!getAccount().hasEnough(amount)) {
+            Language.sendBad(receiver,"The town doesn't have " + Chunky.getMethod().format(amount));
+            return false;
+        }
+        getAccount().subtract(amount);
+        target.add(amount);
+        this.goodMessageTown(receiver.getName() + " has received " + Chunky.getMethod().format(amount) + " from the town bank.");
         return true;
     }
 
@@ -162,7 +178,7 @@ public class ChunkyTown extends ChunkyObject {
 
     public boolean buyChunk(ChunkyChunk chunk, ChunkyPlayer buyer) {
         if(chunk.getOwner().equals(this)) {
-            if(!pay(buyer,getCost(chunk))) return false;
+            if(!deposit(buyer,getCost(chunk))) return false;
             chunk.setOwner(buyer,false,true);
             setChunkNotForSale(chunk);
             Language.sendGood(buyer,"You have purchased this chunk!");
@@ -263,6 +279,13 @@ public class ChunkyTown extends ChunkyObject {
             }}
         this.setOwner(null,false,true);
         save();
+    }
+
+    public void goodMessageTown(String message) {
+        for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+            ChunkyPlayer chunkyPlayer = ChunkyManager.getChunkyPlayer(player.getName());
+            if(this.isResident(chunkyPlayer)) Language.sendGood(chunkyPlayer,message);
+        }
     }
 
 

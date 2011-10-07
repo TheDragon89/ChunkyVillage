@@ -47,7 +47,7 @@ public class SetMayor implements ChunkyCommandExecutor{
 
         chunkyTown.setMayor(newMayor);
 
-        Tools.goodMessageTown(chunkyTown,newMayor.getName() + " is now the new mayor.");
+        chunkyTown.goodMessageTown(newMayor.getName() + " is now the new mayor.");
 
     }
 }

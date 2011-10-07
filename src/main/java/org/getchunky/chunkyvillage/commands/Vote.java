@@ -39,12 +39,12 @@ public class Vote implements ChunkyCommandExecutor{
             return;}
 
         int i = chunkyTown.addVote(chunkyPlayer,candidate);
-        Tools.goodMessageTown(chunkyTown,chunkyPlayer.getName() + " has voted for " + candidate.getName() + ", " + i + " total votes.");
+        chunkyTown.goodMessageTown(chunkyPlayer.getName() + " has voted for " + candidate.getName() + ", " + i + " total votes.");
         if(chunkyTown.getResidents().size() * (Config.getElectionPercentage()/100) <= i) {
             if(!candidate.getName().equals(chunkyTown.getOwner().getName()))chunkyTown.setMayor(candidate);
             chunkyTown.clearVotes();
             chunkyTown.save();
-            Tools.goodMessageTown(chunkyTown,candidate.getName() + " has been elected mayor!");
+            chunkyTown.goodMessageTown(candidate.getName() + " has been elected mayor!");
         }
     }
 

@@ -16,11 +16,4 @@ public class Tools {
             return -1;
         }
     }
-
-    public static void goodMessageTown(ChunkyTown chunkyTown, String message) {
-        for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-            ChunkyPlayer chunkyPlayer = ChunkyManager.getChunkyPlayer(player.getName());
-            if(chunkyTown.isResident(chunkyPlayer)) Language.sendGood(chunkyPlayer,message);
-        }
-    }
 }
