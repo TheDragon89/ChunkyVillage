@@ -58,8 +58,7 @@ public class ChunkyVillage extends JavaPlugin {
             ChunkyCommand kickResident = new ChunkyCommand("kick", Arrays.asList("k"),"Removes resident from town.",Arrays.asList("/c town kick <player> or /c t r <player>"),new KickResident(),town);
             ChunkyCommand tax = new ChunkyCommand("tax", Arrays.asList("tax"),"Taxes all residents.",Arrays.asList("/c town tax <1-100> or /c t tax <1-100>"),new Tax(),town);
             ChunkyCommand vote = new ChunkyCommand("vote", Arrays.asList("v"),"Votes for a mayor.",Arrays.asList("/c town vote <player> or /c t v <player>"),new Vote(),town);
-
-
+            ChunkyCommand spawn = new ChunkyCommand("spawn", Arrays.asList("s"),"Teleport to town.",Arrays.asList("/c town spawn or /c t s"),new Spawn(),town);
 
             ChunkyCommand set = new ChunkyCommand("set", Arrays.asList("s"),"Change various options.",Arrays.asList("/c town set ? or /c t s ?"),new Set(),town);
             ChunkyCommand setName = new ChunkyCommand("name", Arrays.asList("n"),"Sets town name.",Arrays.asList("/c town set name <name> or /c t s n <name>"),new SetName(),set);
@@ -71,6 +70,7 @@ public class ChunkyVillage extends JavaPlugin {
             Chunky.getModuleManager().registerCommand(newTown);
             Chunky.getModuleManager().registerCommand(vote);
             Chunky.getModuleManager().registerCommand(list);
+            Chunky.getModuleManager().registerCommand(spawn);
 
             Chunky.getModuleManager().registerCommand(forSale);
             Chunky.getModuleManager().registerCommand(tax);
