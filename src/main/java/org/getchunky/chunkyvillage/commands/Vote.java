@@ -26,7 +26,13 @@ public class Vote implements ChunkyCommandExecutor{
             Language.sendBad(chunkyPlayer,"You are not part of a town.");
             return;}
 
+        if(strings.length < 1) {
+            chunkyTown.printVotes(chunkyPlayer);
+            return;
+        }
+
         ChunkyPlayer candidate = ChunkyManager.getChunkyPlayer(strings[0]);
+
 
         if(!chunkyTown.isResident(candidate)) {
             Language.sendBad(chunkyPlayer, candidate.getName() + " is not part of your town.");

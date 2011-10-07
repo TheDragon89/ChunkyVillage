@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -70,7 +71,7 @@ public class ChunkyTown extends ChunkyObject {
 
     public ChunkyTown setMayor(ChunkyPlayer mayor) {
         ChunkyObject oldOwner = this.getOwner();
-        this.setOwner(mayor,true,false);
+        this.setOwner(mayor, true, false);
         if(oldOwner!=null) oldOwner.setOwner(this,true,false);
         try {
             mayor.put("mayor",this.getId());
@@ -228,6 +229,28 @@ public class ChunkyTown extends ChunkyObject {
 
     public void clearVotes() {
         this.remove("votes");
+    }
+
+    public void printVotes(ChunkyPlayer chunkyPlayer) {
+        HashMap<String, Integer> standings = new HashMap<String, Integer>();
+        JSONObject votes = getVotes();
+        Iterator keys = votes.keys();
+        while (keys.hasNext()) {
+            String voter = keys.next().toString();
+            String candidate = null;
+            try {candidate = votes.getString(voter);} catch (JSONException e) {};
+
+            if(!standings.containsKey(candidate)) standings.put(candidate,1);
+            else {
+                Integer v = standings.get(candidate);
+                v++;
+                standings.put(candidate,v);
+            }
+        }
+        Language.sendMessage(chunkyPlayer,ChatColor.GRAY + "|-------------------" +ChatColor.GREEN + "[Votes]" + ChatColor.GRAY + "-------------------|");
+        for(String candidate : standings.keySet()) {
+            Language.sendMessage(chunkyPlayer,ChatColor.GREEN + candidate + ": " + ChatColor.YELLOW + standings.get(candidate) + " votes");
+        }
     }
 
 
