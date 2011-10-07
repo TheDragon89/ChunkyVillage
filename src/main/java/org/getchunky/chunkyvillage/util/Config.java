@@ -1,6 +1,7 @@
-package org.getchunky.chunkyvillage;
+package org.getchunky.chunkyvillage.util;
 
 import org.bukkit.util.config.Configuration;
+import org.getchunky.chunkyvillage.ChunkyVillage;
 
 public class Config {
 
@@ -17,6 +18,7 @@ public class Config {
     private static void loadDefaults() {
         getChunkBonusPerPlayer();
         getStartingChunks();
+        getElectionPercentage();
     }
 
     public static int getChunkBonusPerPlayer() {
@@ -25,6 +27,10 @@ public class Config {
 
     public static int getStartingChunks() {
         return configuration.getInt("settings.town.startingChunkLimit",10);
+    }
+
+    public static double getElectionPercentage() {
+        return configuration.getInt("settings.town.electionPercentage",51);
     }
 
 

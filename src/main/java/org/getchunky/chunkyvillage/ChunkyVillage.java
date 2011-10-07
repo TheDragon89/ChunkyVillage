@@ -12,6 +12,7 @@ import org.getchunky.chunkyvillage.commands.set.SetName;
 import org.getchunky.chunkyvillage.commands.toggle.Toggle;
 import org.getchunky.chunkyvillage.commands.toggle.ToggleAssistant;
 import org.getchunky.chunkyvillage.listeners.ChunkyEvents;
+import org.getchunky.chunkyvillage.util.Config;
 
 import java.util.Arrays;
 
@@ -51,9 +52,12 @@ public class ChunkyVillage extends JavaPlugin {
             ChunkyCommand town = new ChunkyCommand("town", Arrays.asList("t"),"Teleport to your town.",Arrays.asList("/chunky town or /c t <name>"),new Town(),root);
             ChunkyCommand newTown = new ChunkyCommand("new", Arrays.asList("n"),"Create a new town",Arrays.asList("/c town new or /c t n"),new NewTown(),town);
             ChunkyCommand forSale = new ChunkyCommand("forsale", Arrays.asList("fs"),"Sets land for sale",Arrays.asList("/c town forsale or /c t fs"),new ForSale(),town);
-            ChunkyCommand addResident = new ChunkyCommand("add", Arrays.asList("a"),"Adds resident to town.",Arrays.asList("/c town add <player> or /c t k <player>"),new KickResident(),town);
+            ChunkyCommand addResident = new ChunkyCommand("add", Arrays.asList("a"),"Adds resident to town.",Arrays.asList("/c town add <player> or /c t k <player>"),new AddResident(),town);
             ChunkyCommand kickResident = new ChunkyCommand("kick", Arrays.asList("k"),"Removes resident from town.",Arrays.asList("/c town kick <player> or /c t r <player>"),new KickResident(),town);
             ChunkyCommand tax = new ChunkyCommand("tax", Arrays.asList("tax"),"Taxes all residents.",Arrays.asList("/c town tax <1-100> or /c t tax <1-100>"),new Tax(),town);
+            ChunkyCommand vote = new ChunkyCommand("vote", Arrays.asList("v"),"Votes for a mayor.",Arrays.asList("/c town vote <player> or /c t v <player>"),new Vote(),town);
+
+
 
             ChunkyCommand set = new ChunkyCommand("set", Arrays.asList("s"),"Change various options.",Arrays.asList("/c town set ? or /c t s ?"),new Set(),town);
             ChunkyCommand setName = new ChunkyCommand("name", Arrays.asList("n"),"Sets town name.",Arrays.asList("/c town set name <name> or /c t s n <name>"),new SetName(),set);
@@ -63,6 +67,7 @@ public class ChunkyVillage extends JavaPlugin {
 
             Chunky.getModuleManager().registerCommand(town);
             Chunky.getModuleManager().registerCommand(newTown);
+            Chunky.getModuleManager().registerCommand(vote);
 
             Chunky.getModuleManager().registerCommand(forSale);
             Chunky.getModuleManager().registerCommand(tax);

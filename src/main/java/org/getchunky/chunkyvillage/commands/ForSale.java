@@ -26,7 +26,7 @@ public class ForSale implements ChunkyCommandExecutor{
             Language.sendBad(chunkyPlayer,"You do not belong to a town.");
             return;
         }
-        if(!chunkyPlayer.isOwnerOf(chunkyChunk)) {
+        if(!chunkyPlayer.isOwnerOf(chunkyChunk) && !chunkyTown.isAssistantOrMayor(chunkyPlayer)) {
             Language.sendBad(chunkyPlayer, "You do not own this land.");
             return;
         }

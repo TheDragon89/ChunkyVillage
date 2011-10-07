@@ -16,29 +16,27 @@ public class ChunkyEvents extends ChunkyPlayerListener {
     @Override
     public void onPlayerChunkClaim(ChunkyPlayerChunkClaimEvent event) {
         ChunkyTown chunkyTown = ChunkyTownManager.getTown(event.getChunkyPlayer());
-        if(chunkyTown != null) {
-            event.setCancelled(true);
-            if(chunkyTown.isForSale(event.getChunkyChunk())) {
-                if(event.getChunkyChunk().isDirectlyOwnedBy(event.getChunkyPlayer())) {
-                    Language.sendBad(event.getChunkyPlayer(),"You cannot buy your own chunk.");
-                    return;
-                }
-                chunkyTown.buyChunk(event.getChunkyChunk(),event.getChunkyPlayer());
+        if(chunkyTown == null) return;
+        if(chunkyTown.isForSale(event.getChunkyChunk())) {
+            if(event.getChunkyChunk().isDirectlyOwnedBy(event.getChunkyPlayer())) {
+                Language.sendBad(event.getChunkyPlayer(),"You cannot buy your own chunk.");
                 return;
             }
-        }
+            event.setCancelled(true);
+            chunkyTown.buyChunk(event.getChunkyChunk(),event.getChunkyPlayer());
+            return;}
 
         if(chunkyTown.isAssistantOrMayor(event.getChunkyPlayer())) {
             if(chunkyTown.claimedChunkCount() >= chunkyTown.maxChunks()) {
                 Language.sendBad(event.getChunkyPlayer(),"You need to have more residents before you can expand.");
                 return;
             }
-            event.setCancelled(true);
             if(!event.getChunkyChunk().isOwned()) {
                 if(!isAdjacent(event.getChunkyChunk().getCoord(),chunkyTown)){
                     Language.sendBad(event.getChunkyPlayer(), "You may only expand next to owned chunks.");
                     return;
                 }
+                event.setCancelled(true);
                 event.getChunkyChunk().setOwner(chunkyTown,true,true);
                 Language.sendGood(event.getChunkyPlayer(),"You expanded " + chunkyTown.getName());
                 event.getChunkyChunk().save();

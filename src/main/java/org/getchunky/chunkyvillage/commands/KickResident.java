@@ -55,9 +55,9 @@ public class KickResident implements ChunkyCommandExecutor{
             return;
         }
 
-        chunkyTown.addResident(resident);
-        Language.sendGood(chunkyPlayer,resident.getName() + " added to " + chunkyTown.getName());
-        Language.sendGood(resident,"You were added to town " + chunkyTown.getName());
+        chunkyTown.kickResident(resident);
+        Language.sendBad(chunkyPlayer,resident.getName() + " added to " + chunkyTown.getName());
+        Language.sendGood(resident,"You were kicked from " + chunkyTown.getName());
 
 
 
