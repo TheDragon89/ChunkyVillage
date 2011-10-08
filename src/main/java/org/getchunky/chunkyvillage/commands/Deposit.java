@@ -28,7 +28,7 @@ public class Deposit implements ChunkyCommandExecutor{
         double amount = Tools.parseDouble(strings[0]);
 
         if(amount < 1) {
-            Language.sendBad(chunkyPlayer,"Pleace specify a proper number.");
+            Language.sendBad(chunkyPlayer,"Please specify a proper number.");
             return;
         }
 

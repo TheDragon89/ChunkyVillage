@@ -30,7 +30,7 @@ public class Tax implements ChunkyCommandExecutor{
         double percentage = Tools.parseDouble(strings[0]);
 
         if(percentage < 1 || percentage > 100) {
-            Language.sendBad(chunkyPlayer,"Pleace specify a number between 1 and 100");
+            Language.sendBad(chunkyPlayer,"Please specify a number between 1 and 100");
             return;
         }
 
