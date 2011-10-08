@@ -24,7 +24,7 @@ public class ChunkyTownManager {
 
     public static ChunkyTown isMayor (ChunkyPlayer chunkyPlayer) {
         try {
-            String id = chunkyPlayer.get("mayor").toString();
+            String id = chunkyPlayer.getData().getString("mayor");
             return getTown(id);
         } catch (JSONException e) {return null;}
     }

@@ -50,7 +50,7 @@ public class KickResident implements ChunkyCommandExecutor{
         }
 
         chunkyTown.kickResident(resident);
-        Language.sendBad(chunkyPlayer,resident.getName() + " added to " + chunkyTown.getName());
+        Language.sendBad(chunkyPlayer,resident.getName() + " was kicked from " + chunkyTown.getName());
         Language.sendGood(resident,"You were kicked from " + chunkyTown.getName());
 
 

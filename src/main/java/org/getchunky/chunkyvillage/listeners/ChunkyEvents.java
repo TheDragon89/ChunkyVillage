@@ -17,12 +17,12 @@ public class ChunkyEvents extends ChunkyPlayerListener {
     public void onPlayerChunkClaim(ChunkyPlayerChunkClaimEvent event) {
         ChunkyTown chunkyTown = ChunkyTownManager.getTown(event.getChunkyPlayer());
         if(chunkyTown == null) return;
+        event.setCancelled(true);
         if(chunkyTown.isForSale(event.getChunkyChunk())) {
             if(event.getChunkyChunk().isDirectlyOwnedBy(event.getChunkyPlayer())) {
                 Language.sendBad(event.getChunkyPlayer(),"You cannot buy your own chunk.");
                 return;
             }
-            event.setCancelled(true);
             chunkyTown.buyChunk(event.getChunkyChunk(),event.getChunkyPlayer());
             return;}
 
@@ -36,7 +36,6 @@ public class ChunkyEvents extends ChunkyPlayerListener {
                     Language.sendBad(event.getChunkyPlayer(), "You may only expand next to owned chunks.");
                     return;
                 }
-                event.setCancelled(true);
                 event.getChunkyChunk().setOwner(chunkyTown,true,true);
                 Language.sendGood(event.getChunkyPlayer(),"You expanded " + chunkyTown.getName());
                 event.getChunkyChunk().save();

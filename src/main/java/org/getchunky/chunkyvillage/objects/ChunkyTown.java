@@ -13,7 +13,6 @@ import org.getchunky.chunky.object.ChunkyPlayer;
 import org.getchunky.chunkyvillage.ChunkyTownManager;
 import org.getchunky.chunkyvillage.util.Config;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -36,9 +35,11 @@ public class ChunkyTown extends ChunkyObject {
 
     public HashSet<String> getAssistants() {
         HashSet<String> result = new HashSet<String> ();
-        JSONArray assistants = this.getData().getJSONArray("assistants");
-        for(int i=0;i<assistants.length();i++) {
-            result.add(assistants.getString(i));}
+        if(this.getData().has("assistants")) {
+            JSONArray assistants = this.getData().getJSONArray("assistants");
+            for(int i=0;i<assistants.length();i++) {
+                result.add(assistants.getString(i));}}
+
         return result;
     }
 
@@ -65,8 +66,9 @@ public class ChunkyTown extends ChunkyObject {
     public ChunkyTown setMayor(ChunkyPlayer mayor) {
         ChunkyObject oldOwner = this.getOwner();
         this.setOwner(mayor, true, false);
-        oldOwner.setOwner(this,true,false);
-        oldOwner.getData().remove("mayor");
+        if(oldOwner!=null) {
+            oldOwner.setOwner(this,true,false);
+            oldOwner.getData().remove("mayor");}
         mayor.getData().put("mayor",this.getId());
         mayor.save();
         return this;
