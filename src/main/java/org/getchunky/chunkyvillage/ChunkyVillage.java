@@ -63,6 +63,7 @@ public class ChunkyVillage extends JavaPlugin {
             ChunkyCommand spawn = new ChunkyCommand("spawn", Arrays.asList("s"),"Teleport to town.",Arrays.asList("/c town spawn or /c t s"),new Spawn(),town);
             ChunkyCommand leave = new ChunkyCommand("leave", Arrays.asList("lv"),"Leave from the town.",Arrays.asList("/c town leave or /c t lv"),new Leave(),town);
             ChunkyCommand withdraw = new ChunkyCommand("withdraw", Arrays.asList("w"),"Withdraw money.",Arrays.asList("/c town withdraw <amount> or /c t w <amount>"),new Withdraw(),town);
+            ChunkyCommand deposit = new ChunkyCommand("deposit", Arrays.asList("d"),"Deposit money.",Arrays.asList("/c town deposit <amount> or /c t d <amount>"),new Deposit(),town);
 
             ChunkyCommand set = new ChunkyCommand("set", Arrays.asList("s"),"Change various options.",Arrays.asList("/c town set ? or /c t s ?"),new Set(),town);
             ChunkyCommand setName = new ChunkyCommand("name", Arrays.asList("n"),"Sets town name.",Arrays.asList("/c town set name <name> or /c t s n <name>"),new SetName(),set);

@@ -34,10 +34,6 @@ public class Deposit implements ChunkyCommandExecutor{
 
         ChunkyTown chunkyTown = ChunkyTownManager.getTown(chunkyPlayer);
 
-        if(!chunkyTown.isAssistantOrMayor(chunkyPlayer)) {
-            Language.sendBad(chunkyPlayer,"You do not have the authority to do this");
-            return;}
-
         chunkyTown.deposit(chunkyPlayer,amount);
     }
 }

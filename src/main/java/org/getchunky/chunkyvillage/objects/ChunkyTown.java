@@ -36,34 +36,25 @@ public class ChunkyTown extends ChunkyObject {
 
     public HashSet<String> getAssistants() {
         HashSet<String> result = new HashSet<String> ();
-        try {
-            JSONArray assistants = this.getJSONArray("assistants");
-            for(int i=0;i<assistants.length();i++) {
-                result.add(assistants.getString(i));}
-        } catch (JSONException e) {}
-
+        JSONArray assistants = this.getData().getJSONArray("assistants");
+        for(int i=0;i<assistants.length();i++) {
+            result.add(assistants.getString(i));}
         return result;
     }
 
     public boolean addAssistant(ChunkyPlayer chunkyPlayer) {
         HashSet<String> assists = getAssistants();
         boolean result = assists.add(chunkyPlayer.getName());
-        try {
-            put("assistants",assists);
-            this.save();
-        } catch (JSONException e) {
-        }
+        this.getData().put("assistants",assists);
+        this.save();
         return result;
     }
 
     public boolean removeAssistant(ChunkyPlayer chunkyPlayer) {
         HashSet<String> assists = getAssistants();
         boolean result = assists.remove(chunkyPlayer.getName());
-        try {
-            put("assistants",assists);
-            this.save();
-        } catch (JSONException e) {
-        }
+        this.getData().put("assistants",assists);
+        this.save();
         return result;
     }
 
@@ -74,29 +65,20 @@ public class ChunkyTown extends ChunkyObject {
     public ChunkyTown setMayor(ChunkyPlayer mayor) {
         ChunkyObject oldOwner = this.getOwner();
         this.setOwner(mayor, true, false);
-        if(oldOwner!=null) {
-            oldOwner.setOwner(this,true,false);
-            oldOwner.remove("mayor");
-        }
-        try {
-            mayor.put("mayor",this.getId());
-        } catch (JSONException e) {}
+        oldOwner.setOwner(this,true,false);
+        oldOwner.getData().remove("mayor");
+        mayor.getData().put("mayor",this.getId());
         mayor.save();
         return this;
     }
 
     public ChunkyTown setHome(ChunkyChunk chunk) {
-        try {
-            put("home",chunk.getFullId());
-        } catch (JSONException e) {}
+        this.getData().put("home",chunk.getFullId());
         return this;
     }
 
     public ChunkyChunk getHome() {
-        try {
-            return (ChunkyChunk)ChunkyManager.getObject(this.get("home").toString());
-        } catch (JSONException e) {}
-        return null;
+        return (ChunkyChunk)ChunkyManager.getObject(this.getData().getString("home"));
     }
 
     public Method.MethodAccount getAccount() {
@@ -150,30 +132,23 @@ public class ChunkyTown extends ChunkyObject {
     }
 
     public ChunkyTown setChunkForSale(ChunkyChunk chunk, double cost) {
-        try {
-            chunk.put("cost", cost);
-            chunk.save();
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        chunk.getData().put("cost", cost);
+        chunk.save();
         return this;
     }
 
     public ChunkyTown setChunkNotForSale(ChunkyChunk chunk) {
-        chunk.remove("cost");
+        chunk.getData().remove("cost");
         chunk.save();
         return this;
     }
 
     public boolean isForSale(ChunkyChunk chunk) {
-        return chunk.has("cost") && chunk.isOwnedBy(this);
+        return chunk.getData().has("cost") && chunk.isOwnedBy(this);
     }
 
     public double getCost(ChunkyChunk chunk) {
-        if(isForSale(chunk)) try {
-            return chunk.getDouble("cost");
-        } catch (JSONException e) {}
-        return 0;
+        return chunk.getData().getDouble("cost");
     }
 
     public boolean buyChunk(ChunkyChunk chunk, ChunkyPlayer buyer) {
@@ -223,31 +198,26 @@ public class ChunkyTown extends ChunkyObject {
     }
 
     public JSONObject getVotes() {
-        if(this.has("votes")) try {return this.getJSONObject("votes");} catch (JSONException e) {}
-
+        if(this.getData().has("votes"))return this.getData().getJSONObject("votes");
         JSONObject jsonObject = new JSONObject();
-        try {this.put("votes",jsonObject);} catch (JSONException e) {}
+        this.getData().put("votes",jsonObject);
         return jsonObject;
     }
 
     public int addVote(ChunkyPlayer chunkyPlayer, ChunkyPlayer candidate) {
-
-        try {
-            JSONObject votes = getVotes();
-            votes.put(chunkyPlayer.getName(), candidate.getName());
-            save();
-            int i=0;
-            Iterator keys = votes.keys();
-            String name = candidate.getName();
-            while(keys.hasNext()) {
-                if(votes.getString(keys.next().toString()).equals(name)) i++;}
-            return i;
-        } catch (Exception ex) {}
-        return 0;
+        JSONObject votes = getVotes();
+        votes.put(chunkyPlayer.getName(), candidate.getName());
+        save();
+        int i=0;
+        Iterator keys = votes.keys();
+        String name = candidate.getName();
+        while(keys.hasNext()) {
+            if(votes.getString(keys.next().toString()).equals(name)) i++;}
+        return i;
     }
 
     public void clearVotes() {
-        this.remove("votes");
+        this.getData().remove("votes");
     }
 
     public void printVotes(ChunkyPlayer chunkyPlayer) {
@@ -257,8 +227,7 @@ public class ChunkyTown extends ChunkyObject {
         while (keys.hasNext()) {
             String voter = keys.next().toString();
             String candidate = null;
-            try {candidate = votes.getString(voter);} catch (JSONException e) {};
-
+            candidate = votes.getString(voter);
             if(!standings.containsKey(candidate)) standings.put(candidate,1);
             else {
                 Integer v = standings.get(candidate);
